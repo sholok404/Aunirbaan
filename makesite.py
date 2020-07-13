@@ -174,12 +174,12 @@ def main():
 
     # Default parameters.
     params = {
-        'base_path': '',
+        'site_url': 'https://sholok404.github.io/Aunirbaan/',
         'subtitle': 'Lorem Ipsum',
         'author': 'Admin',
-        'site_url': 'http://localhost:8000',
         'current_year': datetime.datetime.now().year
     }
+    params['base_path'] = params['site_url']
 
     # If params.json exists, load it.
     if os.path.isfile('params.json'):
