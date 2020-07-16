@@ -26,6 +26,8 @@
 
 """Make static website/blog with Python."""
 
+import pprint
+from collections import defaultdict
 
 import os
 import shutil
@@ -165,6 +167,12 @@ def make_list(posts, dst, list_layout, item_layout, **params):
     log('Rendering list => {} ...', dst_path)
     fwrite(dst_path, output)
 
+def by_category(posts):
+    posts_by_category = defaultdict(list)
+    for post in posts:
+        posts_by_category[post['category']].append(post)
+
+    return posts_by_category
 
 def main():
     # Create a new docs directory from scratch.
@@ -177,9 +185,9 @@ def main():
         'site_url': 'https://sholok404.github.io/Aunirbaan/',
         'subtitle': 'Lorem Ipsum',
         'author': 'Admin',
-        'current_year': datetime.datetime.now().year
+        'current_year': datetime.datetime.now().year,
+        'base_path': ''
     }
-    params['base_path'] = params['site_url']
 
     # If params.json exists, load it.
     if os.path.isfile('params.json'):
@@ -193,28 +201,38 @@ def main():
     feed_xml = fread('layout/feed.xml')
     item_xml = fread('layout/item.xml')
 
+
     # Combine layouts to form final layouts.
     post_layout = render(page_layout, content=post_layout)
     list_layout = render(page_layout, content=list_layout)
 
     # Create site pages.
-    make_pages('content/_index.html', 'docs/index.html',
-               page_layout, **params)
     make_pages('content/[!_]*.html', 'docs/{{ slug }}/index.html',
                page_layout, **params)
 
     # Create blogs.
-    blog_posts = make_pages('content/blog/*.md',
-                            'docs/blog/{{ slug }}/index.html',
-                            post_layout, blog='blog', **params)
-
+    blog_posts = make_pages(
+        'content/blog/*.md',
+        'docs/{{ category }}/{{ slug }}/index.html',
+        post_layout,
+        **params,)
+    
     # Create blog list pages.
-    make_list(blog_posts, 'docs/blog/index.html',
-              list_layout, item_layout, blog='blog', title='Blog', **params)
+    make_list(blog_posts, 'docs/index.html', list_layout, item_layout, slug="blog", title="Blog",**params)
+    for category, posts in by_category(blog_posts).items():
+        make_list(
+            posts,
+            'docs/{{ category }}/index.html',
+            list_layout,
+            item_layout,
+            category=category,
+            title=category,
+            slug=category,
+            **params,
+        )
 
     # Create RSS feeds.
-    make_list(blog_posts, 'docs/blog/rss.xml',
-              feed_xml, item_xml, blog='blog', title='Blog', **params)
+    make_list(blog_posts, 'docs/rss.xml', feed_xml, item_xml, title="blog",**params)
 
 
 # Test parameter to be set temporarily by unit tests.
@@ -223,3 +241,4 @@ _test = None
 
 if __name__ == '__main__':
     main()
+    
