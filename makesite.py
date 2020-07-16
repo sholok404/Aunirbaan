@@ -186,7 +186,7 @@ def main():
         'subtitle': 'Lorem Ipsum',
         'author': 'Admin',
         'current_year': datetime.datetime.now().year,
-        'base_path': ''
+        'base_path': 'Aunirbaan'
     }
 
     # If params.json exists, load it.
@@ -216,7 +216,7 @@ def main():
         'docs/{{ category }}/{{ slug }}/index.html',
         post_layout,
         **params,)
-    
+
     # Create blog list pages.
     make_list(blog_posts, 'docs/index.html', list_layout, item_layout, slug="blog", title="Blog",**params)
     for category, posts in by_category(blog_posts).items():
@@ -241,4 +241,3 @@ _test = None
 
 if __name__ == '__main__':
     main()
-    
