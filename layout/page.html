@@ -1,40 +1,30 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>{{ title }} - {{ subtitle }}</title>
+    <title>Aunirbaan - {{ title }}</title>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width">
-    <link rel="stylesheet" type="text/css" href="{{ base_path }}/css/style.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="{{ base_path }}/css/kaioken.css">
+    <link rel="stylesheet" type="text/css" href="{{ base_path }}/css/test.css">
 </head>
 
-<body id="{{ slug }}">
+<body id="{{ slug }}" class="grid grid-vertical">
+  <header class="grid grid-center grid-middle">
+    <h1 id="cover"><a href="{{ base_path }}/">Aunirbaan</a></h1>
+  </header>
 
-<nav>
-<section>
-    <span class="home">
-        <a href="{{ base_path }}/">Home</a>
-    </span>
-    <span class="links">
-        <a href="{{ base_path }}/contact/">Contact</a>
-        <a href="{{ base_path }}/about/">About</a>
-    </span>
-</section>
-</nav>
 
-<main>
-{{ content }}
-</main>
+  <section class="contents grid grid-vertical grid-middle">
+    {{ content }}
+  </section>
 
-<footer>
-<section>
-<p>&copy; {{ current_year }} Lorem Ipsum</p>
-<p>
-    <a href="https://twitter.com/sunainapai">Twitter</a>
-    <a href="https://github.com/sunainapai">GitHub</a>
-    <a href="https://www.example.com/">Example</a>
-</p>
-</section>
-</footer>
-
+  <footer class="grid grid-center grid-around">
+    <nav>
+      <a class="col-3" href="{{ base_path }}/">Home</a>
+      <a class="col-3" href="{{ base_path }}/contact/">Contact</a>
+      <a class="col-3" href="{{ base_path }}/about/">About</a>
+      <a class="col-3" href="rss.xml">RSS</a>
+    </nav>
+  </footer>
 </body>
 </html>
