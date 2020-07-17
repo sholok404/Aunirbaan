@@ -186,7 +186,7 @@ def main():
         'subtitle': 'Lorem Ipsum',
         'author': 'Admin',
         'current_year': datetime.datetime.now().year,
-        'base_path': 'Aunirbaan'
+        'base_path': '/Aunirbaan'
     }
 
     # If params.json exists, load it.
